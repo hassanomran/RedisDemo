@@ -1,0 +1,24 @@
+services:
+  redisdemo:
+    image: ${DOCKER_REGISTRY-}redisdemo
+    build:
+      context: .
+      dockerfile: RedisDemo/Dockerfile
+    depends_on:
+      - redis
+    environment:
+      - REDIS_HOST=redis
+    networks:
+      - app-network
+
+  redis:
+    image: "redis:latest"
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
